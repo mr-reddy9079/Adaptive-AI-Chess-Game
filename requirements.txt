@@ -1,0 +1,20 @@
+# Core dependencies
+streamlit>=1.28.0
+chess>=1.999
+numpy>=1.24.0
+torch>=2.0.0
+torchvision>=0.15.0
+Pillow>=9.5.0
+pandas>=2.0.0
+matplotlib>=3.7.0
+
+# Chess board rendering
+cairosvg>=2.7.0
+svglib>=1.5.1
+
+# System dependencies that might be needed
+cffi>=1.15.1
+pycparser>=2.21
+
+# Optional: For better performance
+scipy>=1.10.0
