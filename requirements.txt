@@ -1,6 +1,6 @@
 # Core dependencies
 streamlit>=1.28.0
-python-chess==1.11.2
+python-chess==1.999
 numpy>=1.24.0
 torch>=2.0.0
 torchvision>=0.15.0
