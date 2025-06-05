@@ -13,9 +13,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import logging
 from streamlit.components.v1 import html
-def svg_to_image(svg_string):
-    st.warning("SVG rendering not supported in cloud. Using SVG view.")
-    html(svg_string, height=400)
+from streamlit.components.v1 import html
+
+
 
 # Configure logging
 logging.basicConfig(
@@ -420,9 +420,11 @@ def load_adaptive_model(model_path):
         st.error(f"Failed to load adaptive model: {e}")
         return None, device, vocab, pad_token
 
+
 def svg_to_image(svg_string):
-    png_data = cairosvg.svg2png(bytestring=svg_string.encode('utf-8'))
-    return Image.open(io.BytesIO(png_data))
+    # Directly render the SVG in the browser
+    html(svg_string, height=400)
+    return None
 
 def fen_to_tokens(fen, vocab, pad_token, max_len=80):
     tokens = [vocab.get(ch, pad_token) for ch in fen]
@@ -728,8 +730,7 @@ def main():
             squares=chess.SquareSet([chess.parse_square(st.session_state.selected_piece)]) if st.session_state.selected_piece else None,
             lastmove=st.session_state.board.peek() if st.session_state.board.move_stack else None
         )
-        board_img = svg_to_image(svg)
-        st.image(board_img, use_column_width=True)
+        svg_to_image(svg)  # This now renders directly with HTML
 
         # Game logic based on mode
         if game_mode == "Human vs Adaptive AI":
