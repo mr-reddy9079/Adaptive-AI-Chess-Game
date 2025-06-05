@@ -8,11 +8,14 @@ from PIL import Image
 import io
 import random
 import chess.svg
-import cairosvg
 import time
 import pandas as pd
 import matplotlib.pyplot as plt
 import logging
+from streamlit.components.v1 import html
+def svg_to_image(svg_string):
+    st.warning("SVG rendering not supported in cloud. Using SVG view.")
+    html(svg_string, height=400)
 
 # Configure logging
 logging.basicConfig(
