@@ -26,8 +26,8 @@ logger = logging.getLogger("chess_app")
 
 # Model checkpoints
 ADAPTIVE_MODEL_PATH = "hybrid_checkpoint.pth"
-
 HYPERBOLIC_MODEL_CHECKPOINT = "HuggingFaceTB/SmolLM-360M"
+
 
 # =============================================
 # Model Definitions
@@ -652,6 +652,98 @@ def analyze_game_result(board, move_history):
 def main():
     st.set_page_config(page_title="Chess AI Battle", layout="wide")
     st.title("♟️ Chess AI Battle")
+    with st.expander("ℹ️ **About This Chess AI App**", expanded=True):
+        st.markdown("""
+    ---
+    ### 🎮 **1. How to Play**
+    
+    This app lets you **play against a smart AI** or **watch two AIs battle**. You can choose between:
+    
+    - **Human vs Adaptive AI**: You (as White) play against the Adaptive AI.
+    - **Adaptive AI vs Hyperbolic AI**: Watch an AI-vs-AI match and explore how different strategies play out.
+
+    #### Playing as a Human:
+    - Choose **"Human vs Adaptive AI"** from the sidebar.
+    - Click **"Start Game"**.
+    - Enter moves in UCI format (e.g., `e2e4`) or interact with the board.
+    - Press **"Make AI Move"** for the AI to respond.
+    - Stop or restart the game at any time.
+
+    #### Watching AI Battle:
+    - Choose **"Adaptive AI vs Hyperbolic AI"**.
+    - Click **"Start Game"** — the board updates automatically.
+    - Watch evaluations, move history, time per move, and skill progression.
+
+    ---
+    ### 🎯 **2. What is Our Aim?**
+
+    The goal of this project is to showcase **adaptive intelligence in chess**. This app demonstrates how Adaptives behave to the user skills, evolve, and compete in a strategic setting.
+
+    We're not just building a chess bot — we're creating **AI that reacts to its environment**, adapts to player behavior, and mimics learning and strategic planning. It’s an interactive way to learn about reinforcement learning, evaluation functions, and real-time AI adaptation.
+
+    ---
+    ### 🧠 **3. What is Human vs Adaptive AI?**
+
+    In this mode, you play against the **Adaptive AI**, a model that:
+    
+    - Evaluates the **quality** of your moves.
+    - Measures your **response time**.
+    - Learns your **playstyle**: aggressive, defensive, or balanced.
+    - Adjusts its **difficulty level** during the game to match your skill.
+
+    #### Why it's special:
+    - The Adaptive AI **evolves with you**.
+    - If you’re a beginner, it plays softer.
+    - If you improve or play sharply, it becomes more competitive.
+    - It uses a hybrid neural network that includes a **Tiny Transformer-based LLM component** to learn from board positions and patterns.
+
+    This mode is ideal for training, fun, and seeing how AI reacts to human unpredictability.
+
+    ---
+    ### 🤖 **4. What is Adaptive AI vs Hyperbolic AI?**
+
+    This is a battle of **strategic philosophies**.
+
+    - **Hyperbolic AI (White)**: This is pretrained SmolLM-360M llm model, which is used to test the Adaptive AI by making battle 
+    - **Adaptive AI (Black)**: An AI which is created by us,using hybrid model which will adapt to the opponent player's skill and play according to that skill.
+
+    #### What you'll see:
+    - The Hyperbolic AI makes bold sacrifices and plays high-risk moves.
+    - Adaptive AI will study its opponent’s behavior and begin to defend or counter based on how aggressive Hyperbolic AI is.
+    - Skill level and style adapt **live during the match**.
+    - You'll get **charts** showing material evaluation, move times, and how Adaptive AI’s skill fluctuates.
+
+    This is a fantastic mode to **observe AI behavior evolution**, decision making, and strategic shifts over time.
+
+    ---
+    ### 🌀 **5. What is Hyperbolic AI? What LLM is Used?**
+
+    The **Hyperbolic AI** is an aggressive, non-traditional chess engine that:
+    
+    - Applies a **hyperbolic scoring function** to exaggerate good or bad board positions.
+    - Prioritizes **attack, pressure, and complexity**, often preferring chaotic positions over safe ones.
+    - Uses **temperature-based randomness** to add unpredictability to move selection.
+    - Incorporates **risk factor tuning**, making it push harder even in unclear positions.
+
+    #### 🔍 Internally:
+    - It doesn't use deep neural nets but relies on **evaluation heuristics** and **aggressive mobility scoring**.
+    - Designed to be highly stylistic — think of it as the "street fighter" of chess AIs.
+
+    #### 🤖 LLM Used:
+    - The Adaptive AI uses a lightweight transformer-based model called `TinyTransformer`, embedded inside a hybrid neural network (CNN + BiLSTM + Transformer).
+    - The full model is trained on **FEN strings** and predicts position evaluation and skill adjustments.
+    
+    #### 🥊 Performance in Battle:
+    - Hyperbolic AI **dominates early game aggression**.
+    - Adaptive AI starts slow but **learns** Hyperbolic AI's tendencies over time.
+    - In longer games, Adaptive AI often **outlasts** Hyperbolic AI by exploiting its over-aggressiveness.
+    - You can observe **swings in evaluation**, move times, and skill graphs to see how Adaptive AI "figures out" its opponent.
+
+    This creates a compelling, ever-evolving chess battle — not just brute-force calculation, but two AI personalities fighting it out.
+
+    ---
+    """)
+
 
     # Initialize session state
     if 'board' not in st.session_state:
