@@ -651,7 +651,7 @@ def analyze_game_result(board, move_history):
 
 def main():
     st.set_page_config(page_title="Chess AI Battle", layout="wide")
-    st.title("♟️ Chess AI Battle")
+    st.title("♟️ Adaptive Chess AI Game")
     with st.expander("ℹ️ **About This Chess AI App**", expanded=True):
         st.markdown("""
     ---
