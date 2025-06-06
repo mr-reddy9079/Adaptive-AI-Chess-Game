@@ -25,7 +25,8 @@ logging.basicConfig(
 logger = logging.getLogger("chess_app")
 
 # Model checkpoints
-ADAPTIVE_MODEL_PATH = r"C:\Users\karthi\Downloads\hybrid_checkpoint.pth"
+ADAPTIVE_MODEL_PATH = "hybrid_checkpoint.pth"
+
 HYPERBOLIC_MODEL_CHECKPOINT = "HuggingFaceTB/SmolLM-360M"
 
 # =============================================
