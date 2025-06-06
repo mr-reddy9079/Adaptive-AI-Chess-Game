@@ -743,49 +743,30 @@ def main():
                 
             if not st.session_state.board.is_game_over() and st.session_state.game_active:
                 if st.session_state.board.turn == chess.WHITE:
-                    available_pieces = get_available_pieces(st.session_state.board)
-                    piece_options = [f"{name} ({symbol})" for name, symbol in available_pieces]
-                    selected_piece = st.selectbox(
-                        "Select your piece:",
-                        options=piece_options,
-                        index=0,
-                        key="piece_select"
-                    )
-                    if selected_piece:
-                        square_name = selected_piece.split()[0]
-                        st.session_state.selected_piece = square_name
-                        st.session_state.possible_moves = get_possible_moves(st.session_state.board, square_name)
-                        if st.session_state.possible_moves:
-                            move_options = [move.uci() for move in st.session_state.possible_moves]
-                            selected_move = st.selectbox(
-                                "Select move:",
-                                options=move_options,
-                                index=0,
-                                key="move_select"
-                            )
-                            if st.button("Make Move"):
-                                try:
-                                    move = chess.Move.from_uci(selected_move)
-                                    if move in st.session_state.board.legal_moves:
-                                        move_san = st.session_state.board.san(move)
-                                        st.session_state.board.push(move)
-                                        eval_score, skill_level = evaluate_board(st.session_state.board, model, device, vocab, pad_token)
-                                        st.session_state.player_skill = skill_level
-                                        st.session_state.move_history.append({
-                                            'move': selected_move,
-                                            'san': move_san,
-                                            'eval_score': eval_score,
-                                            'skill_level': skill_level
-                                        })
-                                        st.session_state.selected_piece = None
-                                        st.session_state.possible_moves = []
-                                        st.rerun()
-                                    else:
-                                        st.error("Illegal move! Please try again.")
-                                except Exception as e:
-                                    st.error(f"Error making move: {e}")
-                        else:
-                            st.warning("No legal moves for selected piece")
+                    st.markdown("#### Drag-and-Drop Move Input")
+                    user_move_input = st.text_input("Enter your move in UCI format (e.g., e2e4):", key="drag_input")
+
+                    if user_move_input:
+                        try:
+                            move = chess.Move.from_uci(user_move_input.strip())
+                            if move in st.session_state.board.legal_moves:
+                                move_san = st.session_state.board.san(move)
+                                st.session_state.board.push(move)
+                                eval_score, skill_level = evaluate_board(st.session_state.board, model, device, vocab, pad_token)
+                                st.session_state.player_skill = skill_level
+                                st.session_state.move_history.append({
+                                    'move': user_move_input,
+                                    'san': move_san,
+                                    'eval_score': eval_score,
+                                    'skill_level': skill_level
+                                })
+                                st.session_state.selected_piece = None
+                                st.session_state.possible_moves = []
+                                st.rerun()
+                            else:
+                                st.error("Illegal move! Please try again.")
+                        except Exception as e:
+                            st.error(f"Invalid move format or error: {e}")
                 else:
                     if st.button("Make AI Move"):
                         with st.spinner(f"AI thinking (Skill level: {st.session_state.player_skill})..."):
